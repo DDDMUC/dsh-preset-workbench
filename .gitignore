@@ -1,0 +1,19 @@
+# dependencies / install artifacts
+node_modules/
+.pnpm-store/
+*.lock
+
+# logs & temp
+*.log
+*.tmp
+*.bak
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# local-only
+.agent-presets/
