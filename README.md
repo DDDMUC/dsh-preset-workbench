@@ -5,13 +5,11 @@
 
 ---
 
-## 目录 / Quick Nav
-
-**中文**：[简介](#简介) · [功能](#功能) · [安装](#安装) · [使用](#使用) · [能力开关](#能力开关) · [内置模板](#内置模板) · [工作原理](#工作原理) · [常见问题](#常见问题) · [截图](#截图) · [许可](#许可)
-
-**English**：[Intro](#intro) · [Features](#features) · [Install](#install) · [Usage](#usage) · [Capabilities](#capabilities) · [Built-in Templates](#built-in-templates) · [How It Works](#how-it-works) · [FAQ](#faq) · [Screenshots](#screenshots) · [License](#license)
+**[中文](#中文) · [English](#english)**
 
 ---
+
+## 中文
 
 ## 简介
 
@@ -104,6 +102,8 @@ dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 [MIT](./LICENSE)
 
 ---
+
+## English
 
 ## Intro
 
