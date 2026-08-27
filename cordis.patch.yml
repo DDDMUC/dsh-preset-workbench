@@ -1,0 +1,4 @@
+# dsh-preset-workbench - 设置页“预设工作台”：用户自己创建/编辑预设提示词。
+- insert:
+    - id: preset-workbench
+      name: dsh-preset-workbench
