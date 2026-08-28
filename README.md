@@ -43,6 +43,20 @@ dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 
 安装后**重启 dsh**，打开 **设置 → 预设工作台** 即可使用。
 
+## npm 发布
+
+`dsh-preset-workbench` 在公共 npm 上**已验证可用**（registry 返回 404 = 无人占用）。发布步骤：
+
+```bash
+cd <插件目录>
+npm login          # 或设置 NODE_AUTH_TOKEN 环境变量
+npm publish        # publishConfig 已配好：access=public, registry=npmjs
+```
+
+包内含 `templates/`（鲸鱼娘、梁神两套内置模板），所以 `npm install dsh-preset-workbench` 或 `dsh plugin add dsh-preset-workbench` 安装后开箱即用。
+
+**备选：GitHub Packages**（`npm.pkg.github.com`）——规则要求包名**必须带账号 scope**（`@DDDMUC/dsh-preset-workbench`），且认证用 GitHub PAT（权限 `write:packages`），**不是** npm 的 token。仓库里 `.npmrc` 已配好 `@DDDMUC -> npm.pkg.github.com` 映射，需要时把 package.json 的 name 改成带 scope 即可。
+
 ## 使用
 
 1. 打开设置 → 预设工作台
@@ -136,6 +150,20 @@ dsh plugin add --profile web github:<your-username>/dsh-preset-workbench
 ```
 
 **Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**.
+
+## Publishing to npm
+
+`dsh-preset-workbench` is **verified available** on the public npm registry (registry returned 404 = name is free). Publish like this:
+
+```bash
+cd <plugin dir>
+npm login          # or set NODE_AUTH_TOKEN
+npm publish        # publishConfig already set: access=public, registry=npmjs
+```
+
+The package ships `templates/` (Whale Girl & Liangshen built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
+
+**Alternative: GitHub Packages** (`npm.pkg.github.com`) — that registry requires a **scoped package name** (`@DDDMUC/dsh-preset-workbench`) and auth with a GitHub PAT (scope `write:packages`), **not** an npm token. The repo's `.npmrc` already maps `@DDDMUC -> npm.pkg.github.com`; just change the name in package.json when you need it.
 
 ## Usage
 
