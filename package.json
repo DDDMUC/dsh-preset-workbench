@@ -1,6 +1,6 @@
 {
   "name": "dsh-preset-workbench",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "预设工作台：在设置页自己创建/编辑 agent 预设提示词（分段+可见性开关+打开目录），无需创造模式代劳。",
   "type": "module",
   "main": "lib/index.js",
