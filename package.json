@@ -12,9 +12,25 @@
   "files": [
     "lib/index.js",
     "lib/client.js",
-    "cordis.patch.yml"
+    "cordis.patch.yml",
+    "templates"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DDDMUC/dsh-preset-workbench.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "keywords": [
+    "dsh",
+    "preset",
+    "workbench",
+    "agent-preset",
+    "settings-ui"
+  ],
   "dsh": {
     "bundle": {
       "patch": "cordis.patch.yml"
