@@ -1,0 +1,64 @@
+# 发布到 npm —— 使用 Trusted Publishing（OIDC），不需要任何长期 token。
+#
+# 原理：GitHub Actions 在运行时签发一张短期 OIDC 身份令牌，npm 验证「这个 job
+# 确实来自 DDDMUC/dsh-preset-workbench 的这个 workflow」后允许发布。
+# 因此本仓库不需要配置 NPM_TOKEN 之类的 secret，也不会有 token 泄漏/过期问题。
+#
+# 首次使用前，需要在 npmjs.com 上登记一次「受信任的发布者」：
+#   https://www.npmjs.com/package/dsh-preset-workbench/access
+#   → Trusted Publishing → GitHub Actions
+#     Organization or user: DDDMUC
+#     Repository:           dsh-preset-workbench
+#     Workflow filename:    publish.yml
+#     Environment:          （留空）
+#
+# 发版流程：把 package.json 的 version 改好 → 提交 → 打 tag → push tag。
+
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'
+  # 允许手动触发（用于在 npm 侧配置完成后做一次流水线自检）
+  workflow_dispatch:
+
+# id-token: write 是 OIDC 的硬性要求——少了它 npm 无法验证来源。
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Trusted Publishing 需要 npm >= 11.5.1；Node 22 自带的 npm 更旧。
+      - name: Ensure an npm that supports trusted publishing
+        run: |
+          npm install -g npm@latest
+          npm --version
+
+      # 发版卫生：tag 必须与 package.json 的 version 一致，
+      # 否则一个误打的 tag 会发布出与源码不符的版本。
+      - name: Verify tag matches package.json
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require('./package.json').version")"
+          echo "tag=$tag  package.json=$pkg"
+          if [ "$tag" != "$pkg" ]; then
+            echo "::error::tag v$tag does not match package.json version $pkg"
+            exit 1
+          fi
+
+      # 本包没有依赖、没有构建步骤：直接把 lib/ 发布出去。
+      # npm 会以 OIDC 身份发布，并自动附带 provenance 证明。
+      - name: Publish
+        run: npm publish
