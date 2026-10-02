@@ -1,7 +1,7 @@
 {
   "name": "dsh-preset-workbench",
-  "version": "0.1.3",
-  "description": "预设工作台：在设置页自己创建/编辑 agent 预设提示词（分段+可见性开关+打开目录），无需创造模式代劳。",
+  "version": "0.2.0",
+  "description": "预设工作台：在设置页自己创建/编辑 agent 预设提示词（分段+可见性开关+打开目录），并把你磁盘上的用户预设声明给 DSH 预设注册表。",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -12,6 +12,7 @@
   "files": [
     "lib/index.js",
     "lib/client.js",
+    "lib/yaml-lite.js",
     "cordis.patch.yml",
     "templates"
   ],
@@ -32,12 +33,14 @@
     "settings-ui"
   ],
   "dsh": {
+    "engines": {
+      "dsh": ">=0.2.0-rc.1"
+    },
     "bundle": {
       "patch": "cordis.patch.yml"
     },
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-runtime",
         "@deepseek-ai/dsh-client-ui-slots"
       ],
       "platform": "web"
