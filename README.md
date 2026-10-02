@@ -43,31 +43,36 @@ dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 
 安装后**重启 dsh**，打开 **设置 → 预设工作台** 即可使用。
 
-## 发版（Trusted Publishing）
+## 发版
 
-本插件通过 **npm Trusted Publishing（OIDC）** 发布：GitHub Actions 在运行时向 npm 证明「这个 job 来自本仓库的这个 workflow」，**不需要任何长期 token**——因此不存在 token 过期、权限不足或明文泄漏的问题。
-
-发版只需三步：
+本插件发布到公共 npm（包名 `dsh-preset-workbench`，无 scope）。
 
 ```bash
-# 1. 改 package.json 里的 version（例如 0.2.1）
+cd <插件目录>
+# 1. 改 package.json 里的 version（例如 0.2.2）
 # 2. 提交
-git commit -am "release 0.2.1"
-# 3. 打 tag 并推送 —— CI 自动发布到 npm
-git tag v0.2.1
-git push && git push --tags
+git commit -am "release 0.2.2"
+# 3. 发布到公共 npm
+npm publish --registry https://registry.npmjs.org
+# 4. 打 tag 并推送
+git tag v0.2.2 && git push && git push --tags
 ```
 
-`.github/workflows/publish.yml` 会：
+**关于 npm 凭据**：本机 `C:\Users\MVT\.npmrc` 里配置了发布用的 authToken
+（`//registry.npmjs.org/:_authToken`）。若遇到 `E401`（token 失效）或
+`E403 ... requires two-factor authentication`（token 未开启 bypass 2FA），
+用 `npm login --registry https://registry.npmjs.org` 重新登录，或到
+[npmjs.com/tokens](https://www.npmjs.com/settings/~/tokens) 生成一个
+**Granular Access Token（勾选 Bypass 2FA，权限 Read and write）** 替换即可。
 
-1. 校验 tag 与 `package.json` 的 version **一致**（防止误打 tag 发出与源码不符的版本）
-2. 以 OIDC 身份执行 `npm publish`，并自动附带 **provenance** 证明
-
-也可以在 GitHub 的 Actions 页面手动触发该 workflow（`workflow_dispatch`）。
-
-> **首次配置（本仓库已配好，记录备查）**：npm 包页面 → Settings → Trusted Publisher → 添加 GitHub Actions：
-> Organization/user = `DDDMUC`，Repository = `dsh-preset-workbench`，Workflow filename = `publish.yml`，Environment 留空。
-> 该配置创建后不可修改，如需变更只能删除后重建。
+> **可选升级：Trusted Publishing（OIDC）**
+> 仓库里已备好 `.github/workflows/publish.yml`：在 npm 侧登记受信任发布者之后，
+> 推 `v*` tag 即可**零 token** 自动发布（附 provenance 证明）。
+> **当前 npm 侧尚未登记，所以该 workflow 的自动触发是关闭的**（只有手动触发），
+> 避免每次打 tag 都产生一次注定失败的运行。
+> 想启用时：① 在 npm 包页面 Settings → Trusted Publisher 添加 GitHub Actions
+> （`DDDMUC` / `dsh-preset-workbench` / `publish.yml`，Workflow filename 需手动输入）；
+> ② 把该 workflow 里 `on:` 下的 `push/tags` 三行取消注释。
 
 包内含 `templates/`（鲸鱼娘、梁神两套内置模板），所以 `npm install dsh-preset-workbench` 或 `dsh plugin add dsh-preset-workbench` 安装后开箱即用。
 
@@ -167,35 +172,36 @@ dsh plugin add --profile web github:<your-username>/dsh-preset-workbench
 
 **Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**.
 
-## Releasing (Trusted Publishing)
+## Releasing
 
-This package is published via **npm Trusted Publishing (OIDC)**: GitHub Actions proves to
-npm that the job came from this repository's workflow, so **no long-lived token is involved** —
-there is nothing to expire, mis-scope, or leak.
-
-Releasing takes three steps:
+The package is published to the public npm registry (unscoped name `dsh-preset-workbench`).
 
 ```bash
-# 1. bump "version" in package.json (e.g. 0.2.1)
+cd <plugin dir>
+# 1. bump "version" in package.json (e.g. 0.2.2)
 # 2. commit
-git commit -am "release 0.2.1"
-# 3. tag and push — CI publishes to npm
-git tag v0.2.1
-git push && git push --tags
+git commit -am "release 0.2.2"
+# 3. publish
+npm publish --registry https://registry.npmjs.org
+# 4. tag and push
+git tag v0.2.2 && git push && git push --tags
 ```
 
-`.github/workflows/publish.yml` then:
+**npm credentials**: this machine's `C:\Users\MVT\.npmrc` holds the publish token
+(`//registry.npmjs.org/:_authToken`). If you hit `E401` (token expired) or
+`E403 ... requires two-factor authentication` (token lacks bypass-2FA), either run
+`npm login --registry https://registry.npmjs.org`, or create a **Granular Access Token**
+with *Bypass 2FA* and *Read and write* at
+[npmjs.com/tokens](https://www.npmjs.com/settings/~/tokens).
 
-1. verifies the tag matches the `version` in `package.json` (so a stray tag can never ship a
-   version that disagrees with the source)
-2. runs `npm publish` under the OIDC identity, attaching a **provenance** attestation
-
-The workflow can also be started manually from the Actions tab (`workflow_dispatch`).
-
-> **One-time setup (already configured for this repository)** — npm package page → Settings →
-> Trusted Publisher → add GitHub Actions: Organization/user `DDDMUC`, Repository
-> `dsh-preset-workbench`, Workflow filename `publish.yml`, Environment left blank.
-> This connection is immutable once created; changing it means deleting and re-creating it.
+> **Optional upgrade: Trusted Publishing (OIDC)**
+> `.github/workflows/publish.yml` is ready in this repository: once a trusted publisher is
+> registered on npm, pushing a `v*` tag publishes with **no token at all** (plus a provenance
+> attestation). The npm-side registration is **not done yet**, so that workflow's automatic
+> trigger is disabled (manual dispatch only) to avoid a doomed run on every tag.
+> To enable it: ① npm package page → Settings → Trusted Publisher → add GitHub Actions
+> (`DDDMUC` / `dsh-preset-workbench` / `publish.yml` — the workflow filename must be typed in);
+> ② uncomment the `push/tags` lines under `on:`.
 
 The package ships `templates/` (Whale Girl & Liangshen built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
 
