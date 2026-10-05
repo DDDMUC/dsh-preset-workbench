@@ -25,11 +25,23 @@
 | 功能 | 说明 |
 | --- | --- |
 | 分段提示词编辑 | 每段：启用勾选 / 标题 / 内容，可增删段落 |
+| **来源徽章** | 每个预设标注 📦 内置模板 / 📦·✏️ 已改动 / 👤 自定义 / 官方预设，一眼分清“随插件发布的模板”和“你自己创作的” |
 | 新建预设 | 选择内置模板或本机已有预设，一键复制（自带分段装载器） |
 | 能力开关 | 15 项能力：勾选写入、取消移除、自动校验；含“预留接线（disabled）”模式 |
 | 打开目录 | 一键在资源管理器中打开该预设文件夹 |
 | 校验挂载 | 模拟会话加载，报告组合错误 |
 | 删除预设 | 两击确认防误删；仅限用户预设 |
+
+### 来源徽章怎么看
+
+| 徽章 | 含义 |
+| --- | --- |
+| 📦 **内置模板** | id 与插件 `templates/` 里的模板同名，且内容与模板**逐字节一致**——这些内容已随插件公开 |
+| 📦 **内置模板 · ✏️ 已改动** | 名字是模板，但内容有你自己的东西——**不要假定它和模板一样可以公开** |
+| 👤 **自定义** | 不在内置模板之列，是你自己创作的预设 |
+| **官方预设** | 由 DSH 官方或第三方插件声明，磁盘上没有目录，本工作台只能查看 |
+
+**判定规则**：只比对一个方向——模板里的每个文件，在你的目录里是否都存在且内容相同。多出来的文件会被忽略，因为 `sections.json` 是预设唯一的段落清单（没有自动发现机制）：你真正用到的内容要么改动了模板文件，要么改动了 `sections.json`，两种都会被判为「已改动」；而未被引用的多余文件不会进入预设渲染，据此报警只会产生误报。
 
 ## 安装
 
@@ -154,11 +166,23 @@ Presets are DSH's "starting config pack" for new sessions: choosing a preset def
 | Feature | Description |
 | --- | --- |
 | Sectioned prompt editor | Per-section: enabled checkbox / title / content; add & remove sections |
+| **Provenance badge** | Every preset is labelled 📦 built-in template / 📦·✏️ modified / 👤 custom / official, so "ships with the plugin" and "you wrote it" are never confused |
 | Create presets | From built-in template or any existing user preset, one-click copy (with section loader) |
 | Capability toggles | 15 capabilities, write-on-check / remove-on-uncheck, auto mount validation, plus "wired but disabled" mode |
 | Open directory | One click to reveal the preset folder in the file explorer |
 | Validate mount | Simulates session loading and reports composition errors |
 | Delete preset | Double-click confirm (anti-mistake); user presets only |
+
+### Reading the provenance badge
+
+| Badge | Meaning |
+| --- | --- |
+| 📦 **Built-in template** | The id matches a template in the plugin's `templates/`, and the content matches it **byte for byte** — that content is already public with the plugin |
+| 📦 **Built-in template · ✏️ modified** | The name is a template's, but the content contains your own additions — **do not assume it is as public as the template** |
+| 👤 **Custom** | Not one of the built-in templates; a preset you authored |
+| **Official preset** | Declared by DSH or a third-party plugin with no directory on disk; view-only here |
+
+**How "modified" is decided**: only one direction is compared — for every file in the shipped template, does your directory contain it with identical content? Extra files are ignored, because `sections.json` is the preset's only section manifest (there is no auto-discovery): anything you actually use either changes a template file or changes `sections.json`, and both are detected, while unreferenced leftovers never reach the rendered preset and would only cause false alarms.
 
 ## Install
 
