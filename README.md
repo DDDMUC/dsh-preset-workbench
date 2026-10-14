@@ -70,7 +70,7 @@ npm publish --registry https://registry.npmjs.org
 git tag v0.2.2 && git push && git push --tags
 ```
 
-**关于 npm 凭据**：本机 `C:\Users\MVT\.npmrc` 里配置了发布用的 authToken
+**关于 npm 凭据**：本机 `C:\Users\example\.npmrc` 里配置了发布用的 authToken
 （`//registry.npmjs.org/:_authToken`）。若遇到 `E401`（token 失效）或
 `E403 ... requires two-factor authentication`（token 未开启 bypass 2FA），
 用 `npm login --registry https://registry.npmjs.org` 重新登录，或到
@@ -211,7 +211,7 @@ npm publish --registry https://registry.npmjs.org
 git tag v0.2.2 && git push && git push --tags
 ```
 
-**npm credentials**: this machine's `C:\Users\MVT\.npmrc` holds the publish token
+**npm credentials**: this machine's `C:\Users\example\.npmrc` holds the publish token
 (`//registry.npmjs.org/:_authToken`). If you hit `E401` (token expired) or
 `E403 ... requires two-factor authentication` (token lacks bypass-2FA), either run
 `npm login --registry https://registry.npmjs.org`, or create a **Granular Access Token**
