@@ -97,7 +97,6 @@ dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 
 - **会覆盖我已有的同名预设吗？** 不会。创建时检查 id，冲突则拒绝并提示“预设 id 已被占用”。
 - **能改官方系统预设吗？** 不能，所有写操作仅限用户预设。
-- **我的私人预设会随插件泄露吗？** 不会。插件只打包自己的 `templates/`（鲸鱼娘、梁神），与本机 `.agent-presets/` 完全隔离。
 - **改动什么时候生效？** 保存后对**之后新开的会话**生效，当前会话不变。
 
 
@@ -196,7 +195,6 @@ Templates are packed with the plugin; creation copies them to a new id and never
 
 - **Will it overwrite an existing preset with the same id?** No. Creation checks for occupied ids and refuses with "预设 id 已被占用".
 - **Can I edit the official system presets?** No; every write is restricted to user presets.
-- **Will my private presets leak through the plugin?** No. The plugin only packs its own `templates/` (Whale Girl, Liangshen), fully isolated from the local `.agent-presets/`.
 - **When do changes take effect?** Saved changes apply to **newly opened sessions**; the current session is unchanged.
 
 
