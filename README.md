@@ -100,14 +100,7 @@ dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 - **我的私人预设会随插件泄露吗？** 不会。插件只打包自己的 `templates/`（鲸鱼娘、梁神），与本机 `.agent-presets/` 完全隔离。
 - **改动什么时候生效？** 保存后对**之后新开的会话**生效，当前会话不变。
 
-## 截图
 
-> 待补充：拍几张工作台界面图，替换下面两行（放在 `docs/` 或仓库根目录后引用）。
-
-```markdown
-![工作台](./docs/main.png)
-![能力开关](./docs/caps.png)
-```
 
 ## 许可
 
@@ -206,14 +199,7 @@ Templates are packed with the plugin; creation copies them to a new id and never
 - **Will my private presets leak through the plugin?** No. The plugin only packs its own `templates/` (Whale Girl, Liangshen), fully isolated from the local `.agent-presets/`.
 - **When do changes take effect?** Saved changes apply to **newly opened sessions**; the current session is unchanged.
 
-## Screenshots
 
-> TODO: add screenshots and reference them below (`docs/` or repo root).
-
-```markdown
-![Workbench](./docs/main.png)
-![Capabilities](./docs/caps.png)
-```
 
 ## License
 
