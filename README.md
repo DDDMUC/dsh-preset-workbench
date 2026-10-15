@@ -53,42 +53,7 @@ dsh plugin add --profile web <本插件目录的绝对路径>
 dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 ```
 
-安装后**重启 dsh**，打开 **设置 → 预设工作台** 即可使用。
-
-## 发版
-
-本插件发布到公共 npm（包名 `dsh-preset-workbench`，无 scope）。
-
-```bash
-cd <插件目录>
-# 1. 改 package.json 里的 version（例如 0.2.2）
-# 2. 提交
-git commit -am "release 0.2.2"
-# 3. 发布到公共 npm
-npm publish --registry https://registry.npmjs.org
-# 4. 打 tag 并推送
-git tag v0.2.2 && git push && git push --tags
-```
-
-**关于 npm 凭据**：本机 `C:\Users\example\.npmrc` 里配置了发布用的 authToken
-（`//registry.npmjs.org/:_authToken`）。若遇到 `E401`（token 失效）或
-`E403 ... requires two-factor authentication`（token 未开启 bypass 2FA），
-用 `npm login --registry https://registry.npmjs.org` 重新登录，或到
-[npmjs.com/tokens](https://www.npmjs.com/settings/~/tokens) 生成一个
-**Granular Access Token（勾选 Bypass 2FA，权限 Read and write）** 替换即可。
-
-> **可选升级：Trusted Publishing（OIDC）**
-> 仓库里已备好 `.github/workflows/publish.yml`：在 npm 侧登记受信任发布者之后，
-> 推 `v*` tag 即可**零 token** 自动发布（附 provenance 证明）。
-> **当前 npm 侧尚未登记，所以该 workflow 的自动触发是关闭的**（只有手动触发），
-> 避免每次打 tag 都产生一次注定失败的运行。
-> 想启用时：① 在 npm 包页面 Settings → Trusted Publisher 添加 GitHub Actions
-> （`DDDMUC` / `dsh-preset-workbench` / `publish.yml`，Workflow filename 需手动输入）；
-> ② 把该 workflow 里 `on:` 下的 `push/tags` 三行取消注释。
-
-包内含 `templates/`（鲸鱼娘、梁神两套内置模板），所以 `npm install dsh-preset-workbench` 或 `dsh plugin add dsh-preset-workbench` 安装后开箱即用。
-
-**备选：GitHub Packages**（`npm.pkg.github.com`）——规则要求包名**必须带账号 scope**（`@DDDMUC/dsh-preset-workbench`），且认证用 GitHub PAT（权限 `write:packages`），**不是** npm 的 token。仓库里 `.npmrc` 已配好 `@DDDMUC -> npm.pkg.github.com` 映射，需要时把 package.json 的 name 改成带 scope 即可。
+安装后**重启 dsh**，打开 **设置 → 预设工作台** 即可使用。包内含 `templates/`（鲸鱼娘、梁神两套内置模板），所以 `npm install dsh-preset-workbench` 或 `dsh plugin add dsh-preset-workbench` 安装后开箱即用。
 
 ## 使用
 
@@ -194,42 +159,7 @@ dsh plugin add --profile web /absolute/path/to/this/plugin
 dsh plugin add --profile web github:<your-username>/dsh-preset-workbench
 ```
 
-**Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**.
-
-## Releasing
-
-The package is published to the public npm registry (unscoped name `dsh-preset-workbench`).
-
-```bash
-cd <plugin dir>
-# 1. bump "version" in package.json (e.g. 0.2.2)
-# 2. commit
-git commit -am "release 0.2.2"
-# 3. publish
-npm publish --registry https://registry.npmjs.org
-# 4. tag and push
-git tag v0.2.2 && git push && git push --tags
-```
-
-**npm credentials**: this machine's `C:\Users\example\.npmrc` holds the publish token
-(`//registry.npmjs.org/:_authToken`). If you hit `E401` (token expired) or
-`E403 ... requires two-factor authentication` (token lacks bypass-2FA), either run
-`npm login --registry https://registry.npmjs.org`, or create a **Granular Access Token**
-with *Bypass 2FA* and *Read and write* at
-[npmjs.com/tokens](https://www.npmjs.com/settings/~/tokens).
-
-> **Optional upgrade: Trusted Publishing (OIDC)**
-> `.github/workflows/publish.yml` is ready in this repository: once a trusted publisher is
-> registered on npm, pushing a `v*` tag publishes with **no token at all** (plus a provenance
-> attestation). The npm-side registration is **not done yet**, so that workflow's automatic
-> trigger is disabled (manual dispatch only) to avoid a doomed run on every tag.
-> To enable it: ① npm package page → Settings → Trusted Publisher → add GitHub Actions
-> (`DDDMUC` / `dsh-preset-workbench` / `publish.yml` — the workflow filename must be typed in);
-> ② uncomment the `push/tags` lines under `on:`.
-
-The package ships `templates/` (Whale Girl & Liangshen built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
-
-**Alternative: GitHub Packages** (`npm.pkg.github.com`) — that registry requires a **scoped package name** (`@DDDMUC/dsh-preset-workbench`) and auth with a GitHub PAT (scope `write:packages`), **not** an npm token. The repo's `.npmrc` already maps `@DDDMUC -> npm.pkg.github.com`; just change the name in package.json when you need it.
+**Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**. The package ships `templates/` (Whale Girl & Liangshen built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
 
 ## Usage
 
