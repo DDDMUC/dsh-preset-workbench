@@ -1,0 +1,43 @@
+# The `bare` (空提示词) agent preset: no system prompt, no tools.
+#
+# This is the smallest composition that still runs a session. Everything that
+# normally speaks to the model is gone:
+#
+#   • persona-file.mjs registers an EMPTY complete persona section, so the
+#     harness identity, tool guidance, web-surface text, and every assembly
+#     listener are suppressed and the rendered prompt is ''. Runtime context
+#     snapshots are suppressed too (`includeRuntimeContext: false`).
+#   • the same loader empties the assembly's tool schemas (`noTools: true`),
+#     because host-level tools are global and a preset row cannot remove them.
+#   • compaction stays mounted so a long chat does not run out of context.
+#
+# The prompt text is NOT here — it lives in sections.json + section.*.md and
+# is empty until you add a section in the workbench. Two things survive no
+# matter what, by design: the required working-directory line and (when the
+# agent-team bundle is on) the team identity line. Both arrive as user-role
+# messages, not as a system prompt.
+
+# ── identity + tool surface ─────────────────────────────────────────────────
+
+- id: persona
+  name: ./persona-file.mjs
+  config:
+    complete: true
+    includeRuntimeContext: false
+    noTools: true
+
+# ── compaction ──────────────────────────────────────────────────────────────
+
+# Long chats grow unbounded context; this is the same stack the shipped
+# `standard` preset and the other built-in templates use.
+- id: compaction
+  name: cordis:group
+  group: true
+  isolate:
+    compaction: true
+  config:
+    - id: compaction-basic
+      name: '@deepseek-ai/dsh-compaction-basic'
+
+    - id: command-compact
+      name: '@deepseek-ai/dsh-command-compact'

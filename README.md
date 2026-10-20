@@ -17,7 +17,7 @@
 
 - **分段提示词**：每段独立标题与内容，勾选框控制这段是否进入系统提示词（不勾 = 文字保留但不给 AI 看）
 - **能力开关**：15 项可选工具能力，勾选即写入组合文件、取消即移除，每次切换自动做挂载校验
-- **内置模板**：随插件自带“鲸鱼娘”“梁神模式”两套预设，任何机器安装即用
+- **内置模板**：随插件自带“鲸鱼娘”“梁神模式”“空提示词”三套预设，任何机器安装即用
 - **安全边界**：系统预设只读；绝不覆盖本机已有预设；高权限能力带环境预检
 
 ## 功能
@@ -53,12 +53,12 @@ dsh plugin add --profile web <本插件目录的绝对路径>
 dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 ```
 
-安装后**重启 dsh**，打开 **设置 → 预设工作台** 即可使用。包内含 `templates/`（鲸鱼娘、梁神两套内置模板），所以 `npm install dsh-preset-workbench` 或 `dsh plugin add dsh-preset-workbench` 安装后开箱即用。
+安装后**重启 dsh**，打开 **设置 → 预设工作台** 即可使用。包内含 `templates/`（鲸鱼娘、梁神、空提示词三套内置模板），所以 `npm install dsh-preset-workbench` 或 `dsh plugin add dsh-preset-workbench` 安装后开箱即用。
 
 ## 使用
 
 1. 打开设置 → 预设工作台
-2. 下拉框选择一个用户预设（鲸鱼娘 / 梁神 / 你自己建的）
+2. 下拉框选择一个用户预设（鲸鱼娘 / 梁神 / 空提示词 / 你自己建的）
 3. 编辑各段提示词 → 点「💾 保存全部」→ **下次新开的会话**生效
 4. 新建自己的预设：填 id（英文小写）与显示名 → 从模板创建 → 改内容 → 保存
 5. 给预设加能力：展开「🧰 能力开关」打勾，每次切换自动校验
@@ -82,6 +82,7 @@ dsh plugin add --profile web github:<你的用户名>/dsh-preset-workbench
 | --- | --- |
 | `cetacea`（鲸鱼娘） | 极简角色扮演模板：持久 shell + 文件编辑器 + 压缩 + 分段人设（自带分段装载器） |
 | `liangshen`（梁神模式） | 全功能预设：文件/搜索/技能/目标/规划/压缩/子代理/workflow/Ralph/联网等 |
+| `bare`（空提示词） | 裸模模板：没有系统提示词、也没有工具（装配阶段清空工具表）；人设分段初始为空，加一段就有提示词 |
 
 模板随插件打包发布，安装即用；创建时复制到新 id 名下，**不影响本机已有同名预设**。
 
@@ -115,7 +116,7 @@ Presets are DSH's "starting config pack" for new sessions: choosing a preset def
 
 - **Sectioned prompts**: each section has its own title/content; the checkbox decides whether it enters the system prompt (unchecked = text kept but hidden from the AI)
 - **Capability toggles**: 15 optional tool capabilities — check to write the rows into the composition, uncheck to remove, auto-validated on every toggle
-- **Built-in templates**: ships with two presets ("鲸鱼娘 / Whale Girl", "梁神模式 / Liangshen Mode"), ready on any machine after install
+- **Built-in templates**: ships with three presets ("鲸鱼娘 / Whale Girl", "梁神模式 / Liangshen Mode", "空提示词 / Bare"), ready on any machine after install
 - **Safety boundaries**: system presets are read-only; existing local presets are never overwritten; high-power capabilities carry environment pre-checks
 
 ## Features
@@ -151,12 +152,12 @@ dsh plugin add --profile web /absolute/path/to/this/plugin
 dsh plugin add --profile web github:<your-username>/dsh-preset-workbench
 ```
 
-**Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**. The package ships `templates/` (Whale Girl & Liangshen built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
+**Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**. The package ships `templates/` (Whale Girl, Liangshen & Bare built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
 
 ## Usage
 
 1. Open Settings → Preset Workbench
-2. Pick a user preset from the dropdown (Whale Girl / Liangshen / yours)
+2. Pick a user preset from the dropdown (Whale Girl / Liangshen / Bare / yours)
 3. Edit prompt sections → click「💾 Save All」→ takes effect on **new** sessions
 4. Create your own: fill in an id (lowercase english) + display name → create from template → edit → save
 5. Add capabilities: open「🧰 Capability Toggles」and check any item — each toggle auto-validates
@@ -180,6 +181,7 @@ Base capabilities (shell, file editor, compaction) are always on and not togglab
 | --- | --- |
 | `cetacea`（鲸鱼娘 / Whale Girl） | Minimal roleplay preset: persistent shell + file editor + compaction + sectioned persona (ships its own loader) |
 | `liangshen`（梁神模式 / Liangshen Mode） | Full-featured preset: files, search, skills, goals, planning, compaction, subagents, workflows, Ralph, web... |
+| `bare`（空提示词 / Bare） | Raw-model template: no system prompt and no tools (the tool surface is emptied at assembly); the section list starts empty, so adding one section is what gives it a prompt |
 
 Templates are packed with the plugin; creation copies them to a new id and never touches local presets with the same name.
 
