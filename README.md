@@ -17,7 +17,9 @@
 
 - **分段提示词**：每段独立标题与内容，勾选框控制这段是否进入系统提示词（不勾 = 文字保留但不给 AI 看）
 - **能力开关**：15 项可选工具能力，勾选即写入组合文件、取消即移除，每次切换自动做挂载校验
+- **会话里直接换预设**：输入框上方一个胶囊，换预设后排到下一次自动压缩后生效；可设一直显示 / 悬浮才显示 / 不显示
 - **内置模板**：随插件自带“鲸鱼娘”“梁神模式”“空提示词”三套预设，任何机器安装即用
+- **四页结构**：查看 / 新建 / 预设是什么？ / 对话中切换预设
 - **安全边界**：系统预设只读；绝不覆盖本机已有预设；高权限能力带环境预检
 
 ## 功能
@@ -26,8 +28,10 @@
 | --- | --- |
 | 分段提示词编辑 | 每段：启用勾选 / 标题 / 内容，可增删段落 |
 | **来源徽章** | 每个预设标注 📦 内置模板 / 📦·✏️ 已改动 / 👤 自定义 / 官方预设，一眼分清“随插件发布的模板”和“你自己创作的” |
-| 新建预设 | 选择内置模板或本机已有预设，一键复制（自带分段装载器） |
-| 能力开关 | 15 项能力：勾选写入、取消移除、自动校验；含“预留接线（disabled）”模式 |
+| 新建预设 | 选模板后就地展开它的段落与能力开关，改完直接“另存为新预设”——模板本体不动，不必先复制再回头编辑 |
+| 会话内切换 | 输入框上方的预设胶囊；已开始的会话排队到下一次自动压缩后生效，胶囊显示「当前 › 目标」，菜单里 ✓ 表示生效中、行尾「下次压缩后」表示待生效 |
+| 胶囊显示方式 | 「对话中切换预设」页可选：一直显示 / 鼠标悬浮才出现 / 不显示（偏好存在本机浏览器） |
+| 能力开关 | 15 项能力：勾选写入、取消移除、自动校验；含“预留接线（disabled）”模式。`command-compact`（/compact 命令）可关；人设与自动压缩仍锁定 |
 | 打开目录 | 一键在资源管理器中打开该预设文件夹 |
 | 校验挂载 | 模拟会话加载，报告组合错误 |
 | 删除预设 | 两击确认防误删；仅限用户预设 |
@@ -116,7 +120,9 @@ Presets are DSH's "starting config pack" for new sessions: choosing a preset def
 
 - **Sectioned prompts**: each section has its own title/content; the checkbox decides whether it enters the system prompt (unchecked = text kept but hidden from the AI)
 - **Capability toggles**: 15 optional tool capabilities — check to write the rows into the composition, uncheck to remove, auto-validated on every toggle
+- **Switch preset mid-conversation**: a chip above the composer; a switch queues until the next automatic compaction. Choose always visible / on hover / hidden
 - **Built-in templates**: ships with three presets ("鲸鱼娘 / Whale Girl", "梁神模式 / Liangshen Mode", "空提示词 / Bare"), ready on any machine after install
+- **Four tabs**: View / New / What is a preset? / Switch preset mid-conversation
 - **Safety boundaries**: system presets are read-only; existing local presets are never overwritten; high-power capabilities carry environment pre-checks
 
 ## Features
@@ -125,7 +131,9 @@ Presets are DSH's "starting config pack" for new sessions: choosing a preset def
 | --- | --- |
 | Sectioned prompt editor | Per-section: enabled checkbox / title / content; add & remove sections |
 | **Provenance badge** | Every preset is labelled 📦 built-in template / 📦·✏️ modified / 👤 custom / official, so "ships with the plugin" and "you wrote it" are never confused |
-| Create presets | From built-in template or any existing user preset, one-click copy (with section loader) |
+| Create presets | Pick a template and edit its sections and capabilities in place, then "Save as new preset" — the template itself is never modified, and there is no copy-then-edit round trip |
+| Switch mid-conversation | Preset chip above the composer; a running session queues the switch until its next automatic compaction, the chip shows "current › target", and the menu marks ✓ for the active preset and "next compaction" for the pending one |
+| Chip visibility | On the "Switch preset mid-conversation" page: always visible / on hover / hidden (preference stored in this browser) |
 | Capability toggles | 15 capabilities, write-on-check / remove-on-uncheck, auto mount validation, plus "wired but disabled" mode |
 | Open directory | One click to reveal the preset folder in the file explorer |
 | Validate mount | Simulates session loading and reports composition errors |
