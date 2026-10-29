@@ -1,8 +1,0 @@
-agent.cordis.yml 改编自 DeepSeek Harness 内置 Minimal、Standard 与 PTC preset（MIT），
-其 shell 段与内置 Minimal 一致：POSIX 挂上游持久 bash，win32 挂上游持久 pwsh
-（dsh-terminal-bash 的 shellDialect: pwsh + dsh-tool-pwsh-persistent），本 preset
-不提供自研 shell 实现。
-minimal-prompt.mjs 与 tool-catalog.mjs 为 dsh-liangshen 自有实现；其中的
-agent-instructions 引用提示沿用 https://github.com/xiaobright/dsh-anchored-standard
-（MIT）的实验结论，消息注入形状参照 DeepSeek Harness 的 skill catalog。
-原始 DeepSeek 版权和 MIT 许可声明见开源仓库。
