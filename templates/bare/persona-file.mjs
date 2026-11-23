@@ -5,9 +5,8 @@
  * one locked 地基 row:
  *
  * 1. Persona: compose the system prompt from `sections.json` + the flat
- *    `section.*.md` files beside this script, exactly like the example-preset
- *    template. Unlike example-preset there is NO fallback card: no enabled section
- *    means the persona text is `''`, and with `complete: true` that renders
+ *    `section.*.md` files beside this script. There is NO fallback card:
+ *    no enabled section means the persona text is `''`, and with `complete: true` that renders
  *    as an empty system prompt — DSH records a system message with zero
  *    content blocks, i.e. "no system prompt".
  *

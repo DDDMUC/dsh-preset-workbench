@@ -158,12 +158,12 @@ dsh plugin add --profile web /absolute/path/to/this/plugin
 dsh plugin add --profile web github:<your-username>/dsh-preset-workbench
 ```
 
-**Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**. The package ships `templates/` (example preset, Liangshen & Bare built-in templates), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
+**Restart dsh** after installing, then open **Settings → 预设工作台 (Preset Workbench)**. The package ships `templates/` (one built-in template: `bare`, an empty prompt), so `npm install dsh-preset-workbench` or `dsh plugin add dsh-preset-workbench` works out of the box.
 
 ## Usage
 
 1. Open Settings → Preset Workbench
-2. Pick a user preset from the dropdown (example preset / Liangshen / Bare / yours)
+2. Pick a preset from the dropdown (your own presets, plugin-declared ones, or `bare`)
 3. Edit prompt sections → click「💾 Save All」→ takes effect on **new** sessions
 4. Create your own: fill in an id (lowercase english) + display name → create from template → edit → save
 5. Add capabilities: open「🧰 Capability Toggles」and check any item — each toggle auto-validates
