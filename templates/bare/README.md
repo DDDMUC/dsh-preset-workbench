@@ -1,20 +1,18 @@
 # bare（空提示词）预设
 
-**没有任何系统提示词，也没有任何工具。** 会话里只有你说的话和模型本身 —— 用来观察模型的原始行为，或者当作"从零开始"的底板。
+**没有系统提示词，没有工具表，没有运行时快照。** 请求里只剩你说的话和服务端的角色标记 —— 用来观察模型的原始行为，或者当作"从零开始"的底板。
+
+实测对照：同一 profile 下 `standard` 会话首步约 19K input token；本预设的目标是几十 token 量级（自己开一个空会话发一句话，读会话日志里 `assistant/message` 的 `usage.inputTokens` 即可校验）。
 
 ## 它为什么是空的
 
-| 常见内容 | 这里的状态 |
-| --- | --- |
-| Harness 身份、工具说明、Web 环境、结构化输出指引 | 全部不进入 —— 人设段用 `complete: true` 独占系统提示词 |
-| 人设/角色设定 | 空：`sections.json` 里没有任何启用段落 |
-| 运行时快照（源码路径、沙盒、审批策略…） | 关闭（`includeRuntimeContext: false`） |
-| 工具表 | 清空（`persona-file.mjs` 在 `system-prompt/assemble` 里返回空列表） |
-
-有两样东西**压不掉**，它们是 harness 的硬约束，而且都是以 **user 消息** 出现、不是系统提示词：
-
-- `Current working directory: ...`（working-directory 服务标记为 `required`）
-- `You are the Team Lead named "lead"...`（只在启用 agent-team bundle 时出现，同样 `required`）
+| 常见内容 | 这里的状态 | 手段 |
+| --- | --- | --- |
+| Harness 身份、工具说明、Web 环境、结构化输出指引 | 全部不进入 | 人设段 `complete: true` 独占系统提示词 |
+| 人设/角色设定 | 空 | `sections.json` 里没有任何启用段落 |
+| 可选运行时快照（源码路径、会话信息…） | 关闭 | `suppressRuntimeContext()` |
+| **必需的**运行时快照（工作目录那行） | 关闭 | 给 `required: true` 的条目在本层放一个 `required: false` 的空影子，它因此不进入装配 |
+| 工具表 | 清空 | `tools.restrict({ allow: [] })` 让继承来的全局工具一个都不剩 |
 
 ## 怎么用
 
@@ -28,7 +26,13 @@
 | --- | --- | --- |
 | sections.json + section.*.md | 提示词分段本体（初始为空） | 在工作台里改 |
 | agent.cordis.yml | 组合：人设装载器 + 压缩；`noTools` 开关在这里 | 想开工具时改 |
-| persona-file.mjs | 装载脚本：拼提示词 + 清空工具表 | 不要动 |
+| persona-file.mjs | 装载脚本：拼提示词 + 清工具表 + 消影子 context | 不要动 |
 | preset.yml | 选择器里显示的名字和简介 | 想改名时改 |
 
-> 注意：清空工具表是在**装配阶段**做的，所以即使把 web / 文件工具等能力开关勾上，只要 `noTools: true`，模型仍然看不到任何工具。先关掉它，再勾能力。
+> 注意：清空工具表靠的是 `tools.restrict({ allow: [] })`，它只挡**继承来的全局工具**。所以即使把 web / 文件工具等能力开关勾上，只要 `noTools: true`，模型仍然看不到任何工具。先关掉它，再勾能力。
+
+## 已知边界
+
+- **agent 本层注册的工具不在清除范围内。** `tools.restrict` 的语义是「限制继承来的全局工具」，本 agent 作用域里自己注册的工具不受它约束。要连这层也清，得在宿主作用域按 `turn/start` 反复改注册对象的 `when`（`dsh-bare-preset` 就是那么做的），那是插件才能做的事，不是预设目录脚本能做的。
+- **影子 context 依赖 prompt 注册表的内部结构（`layers.global` / `layers.scoped`）。** 拿不到时优雅降级：那几行 runtime context 会重新出现，但不会崩，其余功能照旧。
+- **`tools.restrict` 在个别宿主版本上可能不可用**（例如要求工具名白名单非空）。不可用时这一项降级成警告日志，系统提示词仍然是空的。
